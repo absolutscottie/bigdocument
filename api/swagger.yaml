@@ -1,0 +1,42 @@
+swagger: '2.0'
+info:
+  description: >-
+    An API for uploading or downloading very large documents composed of words (strings of arbitrary length).
+  version: 1.0.0
+  title: Big Document API
+host: not.ready.yet.com
+basePath: /v1
+schemes:
+  - http
+  - https
+paths:
+  /document/{document_name}:
+    get:
+      summary: Retrieve a processed document
+      description: >-
+        Retrieves a processed UTF-8 document composed of words (strings of arbitrary length) separated by line breaks. The fetched document must have been uploaded previously. The processed document will have redundant words removed.
+      parameters:
+        - in: path
+          name: document_name
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Requested document wasn't found
+    put:
+      summary: Upload a document
+      description: >-
+        Upload a UTF-8 document composed of words (strings of arbitrary length) that are separated by new lines.
+      parameters:
+        - in: path
+          name: document_name
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
