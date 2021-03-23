@@ -1,5 +1,14 @@
 # bigdocument
 
+Table of Contents
+=================
+* [Description of the Problem](#description-of-the-problem)
+* [Approach](#approach)
+* [Required packages](#required-packages)
+  * [Logrus](#logrus)
+  * [Mux](#mux)
+
+# Description of the problem
 For the purposes of this challenge, assume the words can be arbitrarily long UTF8 strings.
 
 Requirements:
@@ -19,3 +28,6 @@ There are no limitations to tools/programming language usage.
 You're free to use any framework, but we'd like to see a short explanation of your decision. It will be good to have a short note on why the specific architecture approach was chosen.
 The working code is covered with tests code. There is no need to cover the codebase for 100% with tests, but the key parts should be covered so we can run them. Also, instrumented tests can be skipped.
 The solution should be shared using any VCS hosting.
+
+# Approach
+TBD
