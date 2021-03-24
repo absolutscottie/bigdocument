@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/absolutscottie/bigdocument/internal/mock"
+	"github.com/absolutscottie/bigdocument/internal/data"
 	"github.com/gorilla/mux"
 )
 
@@ -57,12 +57,13 @@ func TestAddHandlers(t *testing.T) {
 }
 
 func TestHandleGetDocument(t *testing.T) {
-	datastore := mock.NewDatastore()
+	datastore, _ := data.NewMongoDatastore()
 	ConfigureDatastore(datastore)
 
 	router := mux.NewRouter()
 	AddHandlers(router)
 
+	datastore.DeleteDocument("test")
 	testDoc, _ := datastore.NewDocument("test")
 	testDoc.AddWord("the")
 	testDoc.AddWord("quick")
@@ -88,7 +89,10 @@ func TestHandleGetDocument(t *testing.T) {
 
 	resultWords := make(map[string]bool)
 
-	bodyBytes, _ := ioutil.ReadAll(rr.Body)
+	bodyBytes, err := ioutil.ReadAll(rr.Body)
+	if err != nil {
+		t.Fatalf("Failed to read body: %v", err)
+	}
 	scanner := bufio.NewScanner(bytes.NewReader(bodyBytes))
 	for scanner.Scan() {
 		line := scanner.Text()

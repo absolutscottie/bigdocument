@@ -2,8 +2,8 @@ package data
 
 type Document interface {
 	AddWord(word string) error
-	Count() int
-	Read(b []byte) (int, error)
+	Count() (int64, error)
+	ReadLine() (string, error)
 }
 
 type Datastore interface {

@@ -57,7 +57,7 @@ func TestAddHandlers(t *testing.T) {
 type ReadWordsTestCase struct {
 	name          string
 	content       string
-	expectedCount int
+	expectedCount int64
 }
 
 func TestReadWords(t *testing.T) {
@@ -99,8 +99,9 @@ word`,
 				t.Fatalf("Unexpected error: %v\n", err)
 			}
 
-			if doc.Count() != tc.expectedCount {
-				t.Fatalf("Unexpected number of words counted - expected %d but found %d\n", tc.expectedCount, doc.Count())
+			docCount, _ := doc.Count()
+			if docCount != tc.expectedCount {
+				t.Fatalf("Unexpected number of words counted - expected %d but found %d\n", tc.expectedCount, docCount)
 			}
 		})
 	}
@@ -141,8 +142,9 @@ dog`
 		t.Fatalf("Unexpected error when finding document: %v\n", err)
 	}
 
+	count, _ := doc.Count()
 	//the document should have 8 words in it
-	if doc.Count() != 8 {
-		t.Fatalf("Unexpected number of words in document: %d\n", doc.Count())
+	if count != 8 {
+		t.Fatalf("Unexpected number of words in document: %d\n", count)
 	}
 }

@@ -36,12 +36,11 @@ func handleGetDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	buffer := make([]byte, 1024)
-	n, err := 0, nil
-	for err == nil {
-		n, err = doc.Read(buffer)
-		if n > 0 {
-			w.Write(buffer[:n])
+	for {
+		line, err := doc.ReadLine()
+		if err != nil {
+			break
 		}
+		w.Write([]byte(line))
 	}
 }
