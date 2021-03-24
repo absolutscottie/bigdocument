@@ -3,7 +3,7 @@ package mock
 import (
 	"errors"
 
-	"github.com/absolutscottie/bigdocument/internal/common/data"
+	"github.com/absolutscottie/bigdocument/internal/data"
 )
 
 type MockDocument struct {
@@ -17,6 +17,10 @@ func (m *MockDocument) AddWord(word string) error {
 
 func (m *MockDocument) Read(b []byte) (int, error) {
 	return 0, nil
+}
+
+func (m *MockDocument) Count() int {
+	return len(m.words)
 }
 
 type MockDatastore struct {
