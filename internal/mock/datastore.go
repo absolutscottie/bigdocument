@@ -2,6 +2,7 @@ package mock
 
 import (
 	"errors"
+	"fmt"
 	"io"
 
 	"github.com/absolutscottie/bigdocument/internal/data"
@@ -19,44 +20,20 @@ func (m *MockDocument) AddWord(word string) error {
 	return nil
 }
 
-func (m *MockDocument) Read(b []byte) (int, error) {
-	//return 0, nil
-	used := 0
-	for k, _ := range m.words {
-		if m.internalBuf == nil {
-			delete(m.words, k)
-			m.internalBuf = []byte(k)
-		}
-
-		for m.internalUsed < len(m.internalBuf) && used < len(b) {
-			if m.needNewline {
-				m.needNewline = false
-				b[used] = '\n'
-				used++
-				continue
-			}
-
-			b[used] = m.internalBuf[m.internalUsed]
-			used++
-			m.internalUsed++
-		}
-
-		if m.internalUsed >= len(m.internalBuf) {
-			m.internalBuf = nil
-			m.internalUsed = 0
-		}
-
-		if used >= len(b) {
-			return used, nil
-		}
-
-		m.needNewline = true
+func (m *MockDocument) ReadLine() (string, error) {
+	if len(m.words) == 0 {
+		return "", io.EOF
 	}
-	return used, io.EOF
+
+	for k, _ := range m.words {
+		return fmt.Sprintf("%s\n", k), nil
+	}
+
+	return "", io.EOF
 }
 
-func (m *MockDocument) Count() int {
-	return len(m.words)
+func (m *MockDocument) Count() (int64, error) {
+	return int64(len(m.words)), nil
 }
 
 type MockDatastore struct {
