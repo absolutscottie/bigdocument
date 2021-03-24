@@ -2,6 +2,7 @@ package data
 
 type Document interface {
 	AddWord(word string) error
+	Count() int
 	Read(b []byte) (int, error)
 }
 
