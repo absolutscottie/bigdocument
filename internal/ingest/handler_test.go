@@ -2,6 +2,7 @@ package ingest
 
 import (
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 
@@ -102,5 +103,46 @@ word`,
 				t.Fatalf("Unexpected number of words counted - expected %d but found %d\n", tc.expectedCount, doc.Count())
 			}
 		})
+	}
+}
+
+func TestHandlePutDocument(t *testing.T) {
+	datastore := mock.NewDatastore()
+	ConfigureDatastore(datastore)
+
+	router := mux.NewRouter()
+	AddHandlers(router)
+
+	input := `the
+quick
+brown
+fox
+jumped
+over
+the
+lazy
+dog`
+
+	req, err := http.NewRequest("PUT", "http://localhost:8181/document/test", strings.NewReader(input))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	router.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	//datastore should have 1 document in it
+	doc, err := datastore.FindDocument("test")
+	if err != nil {
+		t.Fatalf("Unexpected error when finding document: %v\n", err)
+	}
+
+	//the document should have 8 words in it
+	if doc.Count() != 8 {
+		t.Fatalf("Unexpected number of words in document: %d\n", doc.Count())
 	}
 }
