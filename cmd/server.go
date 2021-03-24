@@ -8,10 +8,10 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/absolutscottie/bigdocument/internal/config"
+	"github.com/absolutscottie/bigdocument/internal/data"
 	"github.com/absolutscottie/bigdocument/internal/egress"
 	"github.com/absolutscottie/bigdocument/internal/ingest"
 	"github.com/absolutscottie/bigdocument/internal/middleware"
-	"github.com/absolutscottie/bigdocument/internal/mock"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -24,7 +24,12 @@ func main() {
 		return
 	}
 
-	datastore := mock.NewDatastore()
+	//datastore := mock.NewDatastore()
+	datastore, err := data.NewMongoDatastore()
+	if err != nil {
+		log.Errorf("Failed to connect to datastore: %v\n", err)
+		return
+	}
 	ingest.ConfigureDatastore(datastore)
 	egress.ConfigureDatastore(datastore)
 
