@@ -1,5 +1,6 @@
 {
     "name": "Test Configuration",
     "bind_addr": "",
-    "port": "8181"
+    "port": "80",
+    "datastore_host": "mongodb://mongodb-standalone-0.database:27017"
 }

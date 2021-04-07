@@ -7,9 +7,10 @@ import (
 )
 
 type Config struct {
-	Name     string `json:"name"`
-	BindAddr string `json:"bind_addr"`
-	Port     string `json:"port"`
+	Name          string `json:"name"`
+	BindAddr      string `json:"bind_addr"`
+	Port          string `json:"port"`
+	DatastoreHost string `json:"datastore_host"`
 }
 
 //	Load will open the file identified by filename and Unmarshal the content of

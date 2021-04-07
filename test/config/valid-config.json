@@ -1,5 +1,6 @@
 {
     "name": "Test Configuration",
     "bind_addr": "",
-    "port": "8181"
+    "port": "8181",
+    "datastore_host": "this is a test"
 }

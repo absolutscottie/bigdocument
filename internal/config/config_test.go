@@ -5,12 +5,13 @@ import (
 )
 
 type ConfigTestCase struct {
-	name          string
-	path          string
-	expectedError string
-	expectedName  string
-	expectedAddr  string
-	expectedPort  string
+	name           string
+	path           string
+	expectedError  string
+	expectedName   string
+	expectedAddr   string
+	expectedPort   string
+	expectedDSHost string
 }
 
 func TestLoadConfig(t *testing.T) {
@@ -26,12 +27,13 @@ func TestLoadConfig(t *testing.T) {
 			expectedError: "unexpected end of JSON input",
 		},
 		ConfigTestCase{
-			name:          "valid input",
-			path:          "../../test/config/valid-config.json",
-			expectedError: "",
-			expectedName:  "Test Configuration",
-			expectedAddr:  "",
-			expectedPort:  "8181",
+			name:           "valid input",
+			path:           "../../test/config/valid-config.json",
+			expectedError:  "",
+			expectedName:   "Test Configuration",
+			expectedAddr:   "",
+			expectedPort:   "8181",
+			expectedDSHost: "this is a test",
 		},
 	}
 
@@ -55,6 +57,10 @@ func TestLoadConfig(t *testing.T) {
 
 			if cfg.Name != testCase.expectedName {
 				t.Errorf("name does not match")
+			}
+
+			if cfg.DatastoreHost != testCase.expectedDSHost {
+				t.Errorf("datastore host does not match")
 			}
 		})
 	}
