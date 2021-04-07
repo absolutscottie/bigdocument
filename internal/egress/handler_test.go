@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/absolutscottie/bigdocument/internal/data"
+	"github.com/absolutscottie/bigdocument/internal/mock"
 	"github.com/gorilla/mux"
 )
 
@@ -57,7 +57,7 @@ func TestAddHandlers(t *testing.T) {
 }
 
 func TestHandleGetDocument(t *testing.T) {
-	datastore, _ := data.NewMongoDatastore()
+	datastore := mock.NewDatastore()
 	ConfigureDatastore(datastore)
 
 	router := mux.NewRouter()
