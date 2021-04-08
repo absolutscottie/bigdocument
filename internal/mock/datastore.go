@@ -26,6 +26,7 @@ func (m *MockDocument) ReadLine() (string, error) {
 	}
 
 	for k, _ := range m.words {
+		delete(m.words, k)
 		return fmt.Sprintf("%s\n", k), nil
 	}
 

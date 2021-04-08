@@ -6,6 +6,8 @@ import (
 	"io"
 	"time"
 
+	"github.com/absolutscottie/bigdocument/internal/config"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -86,11 +88,10 @@ type MongoDatastore struct {
 
 //	NewMongoDatastore establishes a connection to a local mongodb install and returns a
 //	wrapper for the client
-func NewMongoDatastore() (Datastore, error) {
+func NewMongoDatastore(cfg *config.Config) (Datastore, error) {
 	ctx, cancel := context.WithTimeout(context.TODO(), 10*time.Second)
 	defer cancel()
-	//	I'm in a hurry now but this data should be kept in a config
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(cfg.DatastoreHost))
 	if err != nil {
 		return nil, err
 	}
